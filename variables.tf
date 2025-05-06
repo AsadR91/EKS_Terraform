@@ -1,5 +1,3 @@
-# This is to make code DRY
-
 variable "region" {
   description = "AWS region to deploy to"
   type        = string
@@ -41,13 +39,3 @@ variable "desired_capacity" {
   type        = number
   default     = 3
 }
-
-
-
-
-# variable "ssh_key_name" {
-#   description = "The name of the SSH key pair to use for instances"
-#   type        = string
-#   default     = "Project-key"
-# }
-#
