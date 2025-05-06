@@ -58,12 +58,12 @@ This Terraform configuration sets up a complete **Elastic Kubernetes Service (EK
 ```bash
 git clone https://github.com/your-username/terraform-eks-cluster.git
 cd terraform-eks-cluster
-
-3. Customize Variables (Optional)
+```
+### 3. Customize Variables (Optional)
 Edit variables.tf to tweak region, instance size, or number of subnets.
 
 Example:
-
+```bash
 variable "region" {
   default = "us-east-1"
 }
@@ -73,33 +73,33 @@ variable "node_instance_type" {
 }
 ```
 
-4. Initialize and Apply
-
+### 4. Initialize and Apply
+```bash
 terraform init
 terraform apply
-
+```
 
 
 **Note** Confirm when prompted. The process takes a few minutes.
 
-5. Outputs
+### 5. Outputs
 After it's done, Terraform will show you values like:
 
-EKS Cluster ID
+- EKS Cluster ID
 
-Node Group ID
+- Node Group ID
 
-VPC ID
+- VPC ID
 
-Subnet IDs
+- Subnet IDs
 
-🧹 Cleanup
+### 🧹 Cleanup
 To destroy all resources:
-
+```bash
 terraform destroy
+```
 
-
-📄 Files Overview
+### 📄 Files Overview
 
 | File           | Description                                |
 | -------------- | ------------------------------------------ |
@@ -111,22 +111,22 @@ terraform destroy
 🧠 Why DRY Code?
 We’ve reduced repetition using:
 
-locals for consistent naming
+- Locals for consistent naming
 
-variables for configurable values
+- Variables for configurable values
 
-count and for_each where needed
+- Count and for_each where needed
 
-jsonencode for clean IAM policy blocks
+- jsonencode for clean IAM policy blocks
 
-This keeps your infrastructure:
+#### This keeps your infrastructure:
 
-Easy to maintain
+- Easy to maintain
 
-Reusable for future projects
+- Reusable for future projects
 
-Less prone to human error
+- Less prone to human error
 
 
-📬 Feedback or Questions?
+#### 📬 Feedback or Questions?
 Feel free to open an issue or PR with suggestions!
