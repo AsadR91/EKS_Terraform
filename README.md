@@ -71,7 +71,7 @@ variable "region" {
 variable "node_instance_type" {
   default = "t2.medium"
 }
-
+```
 
 4. Initialize and Apply
 
