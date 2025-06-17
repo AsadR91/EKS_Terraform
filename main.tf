@@ -93,6 +93,45 @@ resource "aws_security_group" "nodes" {
   }
 }
 
+data "aws_ami" "eks" {
+  most_recent = true
+  owners      = ["602401143452"]
+
+  filter {
+    name   = "name"
+    values = ["amazon-eks-node-*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+}
+
+resource "aws_launch_template" "eks_nodes_lt" {
+  name_prefix   = "${local.project_name}-lt"
+  image_id      = data.aws_ami.eks.id
+  instance_type = var.node_instance_type
+  key_name      = var.ssh_key_name
+
+  instance_market_options {
+    market_type = "spot"
+
+    spot_options {
+      max_price                     = var.spot_max_price
+      spot_instance_type            = "persistent"
+      instance_interruption_behavior = "stop"
+    }
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "${local.project_name}-spot-node"
+    }
+  }
+}
+
 resource "aws_eks_cluster" "main" {
   name     = "${local.project_name}-cluster"
   role_arn = aws_iam_role.eks.arn
@@ -115,10 +154,13 @@ resource "aws_eks_node_group" "main" {
     min_size     = var.desired_capacity
   }
 
-  instance_types = [var.node_instance_type]
+  launch_template {
+    id      = aws_launch_template.eks_nodes_lt.id
+    version = "$Latest"
+  }
 
   remote_access {
-    ec2_ssh_key = var.ssh_key_name
+    ec2_ssh_key               = var.ssh_key_name
     source_security_group_ids = [aws_security_group.nodes.id]
   }
 }
