@@ -1,18 +1,4 @@
-output "cluster_id" {
-  value = aws_eks_cluster.main.id
-}
-
-output "node_group_id" {
-  value = aws_eks_node_group.main.id
-}
-
-output "vpc_id" {
-  value = aws_vpc.main.id
-}
-
-output "subnet_ids" {
-  value = aws_subnet.main[*].id
-}variable "region" {
+variable "region" {
   description = "AWS region to deploy to"
   type        = string
   default     = "us-east-1"
@@ -45,11 +31,23 @@ variable "azs" {
 variable "node_instance_type" {
   description = "EC2 instance type for EKS worker nodes"
   type        = string
-  default     = "t2.medium"
+  default     = "t3.medium"
 }
 
 variable "desired_capacity" {
   description = "Desired number of worker nodes"
   type        = number
   default     = 3
+}
+
+variable "spot_instance" {
+  description = "Whether to use spot instances"
+  type        = bool
+  default     = true
+}
+
+variable "spot_max_price" {
+  description = "The maximum price to pay for spot instances"
+  type        = string
+  default     = "0.06"
 }
